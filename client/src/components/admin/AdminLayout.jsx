@@ -8,6 +8,7 @@ import {
   LogOut,
   Anchor,
   Ship,
+  HeartHandshake,
 } from "lucide-react";
 import { setToken } from "../../api";
 
@@ -18,6 +19,7 @@ const links = [
   { to: "/admin/executives", label: "Executives", icon: Users },
   { to: "/admin/marketplace", label: "Marketplace", icon: ShoppingBag },
   { to: "/admin/partners", label: "Partners", icon: Ship },
+  { to: "/admin/services", label: "Student Services", icon: HeartHandshake },
 ];
 
 export default function AdminLayout({ children }) {
