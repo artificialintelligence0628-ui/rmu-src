@@ -7,6 +7,7 @@ import {
   ShoppingBag,
   LogOut,
   Anchor,
+  Ship,
 } from "lucide-react";
 import { setToken } from "../../api";
 
@@ -16,6 +17,7 @@ const links = [
   { to: "/admin/events", label: "Events", icon: CalendarDays },
   { to: "/admin/executives", label: "Executives", icon: Users },
   { to: "/admin/marketplace", label: "Marketplace", icon: ShoppingBag },
+  { to: "/admin/partners", label: "Partners", icon: Ship },
 ];
 
 export default function AdminLayout({ children }) {
