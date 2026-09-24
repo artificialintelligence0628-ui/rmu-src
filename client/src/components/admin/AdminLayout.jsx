@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -9,6 +10,8 @@ import {
   Anchor,
   Ship,
   HeartHandshake,
+  Menu,
+  X,
 } from "lucide-react";
 import { setToken } from "../../api";
 
@@ -24,6 +27,7 @@ const links = [
 
 export default function AdminLayout({ children }) {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   function logout() {
     setToken(null);
@@ -32,7 +36,32 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className="min-h-screen flex bg-gray-50">
-      <aside className="w-64 shrink-0 bg-navy text-white flex flex-col">
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 inset-x-0 z-40 bg-navy text-white flex items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+            <Anchor size={16} />
+          </span>
+          <p className="font-serif text-base leading-none">RMU SRC Admin</p>
+        </div>
+        <button onClick={() => setOpen((v) => !v)} aria-label="Toggle menu">
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {/* Overlay behind the mobile sidebar */}
+      {open && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+      <aside
+        className={`w-64 shrink-0 bg-navy text-white flex flex-col fixed md:static inset-y-0 left-0 z-50 transition-transform duration-200 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
         <div className="flex items-center gap-2 px-6 py-6 border-b border-white/10">
           <span className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
             <Anchor size={18} />
@@ -43,12 +72,13 @@ export default function AdminLayout({ children }) {
           </div>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-1">
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {links.map((l) => (
             <NavLink
               key={l.to}
               to={l.to}
               end={l.end}
+              onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition ${
                   isActive ? "bg-white/15 font-medium" : "text-white/70 hover:bg-white/10"
@@ -68,7 +98,7 @@ export default function AdminLayout({ children }) {
         </button>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto pt-14 md:pt-0 w-full">{children}</main>
     </div>
   );
 }
