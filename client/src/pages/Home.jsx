@@ -75,11 +75,11 @@ export default function Home() {
     <div>
       {/* Hero: full-screen dusk sea, sits under the (glass) navbar */}
       <section className="relative -mt-16 flex min-h-[85vh] sm:min-h-screen items-center justify-center overflow-hidden bg-navy text-white">
-  <img
+ <img
   src="/hero-bg.jpg"
   alt=""
   aria-hidden="true"
-  className="absolute inset-0 h-full w-full object-cover object-[20%_center] sm:object-center"
+  className="absolute inset-0 h-full w-full object-cover object-center"
 />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-transparent to-navy/50" />
 
