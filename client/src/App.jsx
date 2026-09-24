@@ -22,6 +22,7 @@ import AdminNews from "./pages/admin/AdminNews";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminExecutives from "./pages/admin/AdminExecutives";
 import AdminMarketplace from "./pages/admin/AdminMarketplace";
+import AdminPartners from "./pages/admin/AdminPartners";
 
 export default function App() {
   const location = useLocation();
@@ -86,6 +87,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AdminMarketplace />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/partners"
+          element={
+            <ProtectedRoute>
+              <AdminPartners />
             </ProtectedRoute>
           }
         />
