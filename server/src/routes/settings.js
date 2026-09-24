@@ -56,11 +56,11 @@ router.get("/services/list", asyncHandler(async (req, res) => {
 }));
 
 router.post("/services", requireAdmin, asyncHandler(async (req, res) => {
-  const { title, description, icon, order_index } = req.body;
+  const { title, description, icon, image_url, link, order_index } = req.body;
   const { rows } = await query(
-    `INSERT INTO student_services (title, description, icon, order_index)
-     VALUES ($1,$2,COALESCE($3,'HelpCircle'),COALESCE($4,0)) RETURNING *`,
-    [title, description, icon, order_index]
+    `INSERT INTO student_services (title, description, icon, image_url, link, order_index)
+     VALUES ($1,$2,COALESCE($3,'HelpCircle'),$4,$5,COALESCE($6,0)) RETURNING *`,
+    [title, description, icon, image_url, link, order_index]
   );
   res.status(201).json(rows[0]);
 }));
