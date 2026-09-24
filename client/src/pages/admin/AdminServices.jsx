@@ -4,7 +4,18 @@ import { Plus, Trash2, X, HelpCircle } from "lucide-react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import { settingsApi } from "../../api";
 
-const emptyForm = { title: "", description: "", icon: "HelpCircle" };
+const iconOptions = [
+  { value: "BookOpen", label: "Academic support" },
+  { value: "HeartHandshake", label: "Counselling / welfare" },
+  { value: "Wallet", label: "Financial aid" },
+  { value: "Shield", label: "Safety & security" },
+  { value: "GraduationCap", label: "Careers & scholarships" },
+  { value: "Home", label: "Housing" },
+  { value: "Stethoscope", label: "Health services" },
+  { value: "Users", label: "Community / clubs" },
+];
+
+const emptyForm = { title: "", description: "", icon: "BookOpen" };
 
 export default function AdminServices() {
   const [services, setServices] = useState([]);
@@ -91,11 +102,16 @@ export default function AdminServices() {
               <textarea rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full border rounded-lg px-3 py-2 mt-1" />
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500">Icon name</label>
-              <input value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} placeholder="e.g. BookOpen, HeartHandshake, Wallet" className="w-full border rounded-lg px-3 py-2 mt-1" />
-              <p className="text-xs text-gray-400 mt-1">
-                Any icon name from lucide.dev/icons — case-sensitive (e.g. "BookOpen", not "book-open").
-              </p>
+              <label className="text-xs font-semibold text-gray-500">Icon</label>
+              <select
+                value={form.icon}
+                onChange={(e) => setForm({ ...form, icon: e.target.value })}
+                className="w-full border rounded-lg px-3 py-2 mt-1 bg-white"
+              >
+                {iconOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
             </div>
 
             <button disabled={saving} className="w-full bg-navy text-white rounded-full py-3 font-medium disabled:opacity-60">
