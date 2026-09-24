@@ -23,6 +23,7 @@ import AdminEvents from "./pages/admin/AdminEvents";
 import AdminExecutives from "./pages/admin/AdminExecutives";
 import AdminMarketplace from "./pages/admin/AdminMarketplace";
 import AdminPartners from "./pages/admin/AdminPartners";
+import AdminServices from "./pages/admin/AdminServices";
 
 export default function App() {
   const location = useLocation();
@@ -95,6 +96,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <AdminPartners />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/services"
+          element={
+            <ProtectedRoute>
+              <AdminServices />
             </ProtectedRoute>
           }
         />
