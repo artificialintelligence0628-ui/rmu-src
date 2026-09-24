@@ -76,11 +76,11 @@ export default function Home() {
       {/* Hero: full-screen dusk sea, sits under the (glass) navbar */}
       <section className="relative -mt-16 flex min-h-[85vh] sm:min-h-screen items-center justify-center overflow-hidden bg-navy text-white">
   <img
-    src="/hero-bg.jpg"
-    alt=""
-    aria-hidden="true"
-    className="absolute inset-0 h-full w-full object-cover object-[65%_center] sm:object-center"
-  />
+  src="/hero-bg.jpg"
+  alt=""
+  aria-hidden="true"
+  className="absolute inset-0 h-full w-full object-cover object-[20%_center] sm:object-center"
+/>
         <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-transparent to-navy/50" />
 
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-6 pb-24 pt-28 text-center [text-shadow:0_2px_24px_rgba(10,12,50,0.35)]">
