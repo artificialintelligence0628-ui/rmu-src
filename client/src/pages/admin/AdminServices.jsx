@@ -92,7 +92,7 @@ export default function AdminServices() {
 
       {adding && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <form onSubmit={handleSave} className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4">
+          <form onSubmit={handleSave} className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center">
               <h2 className="font-serif text-xl text-navy">New service</h2>
               <button type="button" onClick={() => setAdding(false)}><X size={20} className="text-gray-400" /></button>
