@@ -1,125 +1,48 @@
 import { useEffect, useState } from "react";
-import * as LucideIcons from "lucide-react";
-import { Plus, Trash2, X, HelpCircle } from "lucide-react";
-import AdminLayout from "../../components/admin/AdminLayout";
-import { settingsApi } from "../../api";
+import * as Icons from "lucide-react";
+import { settingsApi } from "../api";
 
-const iconOptions = [
-  { value: "BookOpen", label: "Academic support" },
-  { value: "HeartHandshake", label: "Counselling / welfare" },
-  { value: "Wallet", label: "Financial aid" },
-  { value: "Shield", label: "Safety & security" },
-  { value: "GraduationCap", label: "Careers & scholarships" },
-  { value: "Home", label: "Housing" },
-  { value: "Stethoscope", label: "Health services" },
-  { value: "Users", label: "Community / clubs" },
-];
-
-const emptyForm = { title: "", description: "", icon: "BookOpen" };
-
-export default function AdminServices() {
+export default function StudentServices() {
   const [services, setServices] = useState([]);
-  const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState(emptyForm);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
 
-  function load() {
+  useEffect(() => {
     settingsApi.services.list().then(setServices).catch(() => {});
-  }
-
-  useEffect(load, []);
-
-  async function handleSave(e) {
-    e.preventDefault();
-    setSaving(true);
-    setError("");
-    try {
-      await settingsApi.services.create(form);
-      setForm(emptyForm);
-      setAdding(false);
-      load();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleDelete(id) {
-    if (!confirm("Remove this service?")) return;
-    await settingsApi.services.remove(id);
-    load();
-  }
+  }, []);
 
   return (
-    <AdminLayout>
-      <div className="max-w-3xl mx-auto px-8 py-10">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="font-serif text-3xl text-navy">Student Services</h1>
-          <button onClick={() => setAdding(true)} className="flex items-center gap-2 bg-navy text-white rounded-full px-5 py-2.5 text-sm font-medium">
-            <Plus size={16} /> New service
-          </button>
-        </div>
+    <section className="max-w-7xl mx-auto px-6 py-12">
+      <p className="text-blue-700 uppercase text-sm tracking-wide font-semibold mb-2">Student Services</p>
+      <h1 className="font-serif text-4xl md:text-5xl text-navy mb-10">Here to support every student.</h1>
 
-        <div className="bg-white border rounded-2xl divide-y">
-          {services.map((s) => {
-            const Icon = LucideIcons[s.icon] || HelpCircle;
-            return (
-              <div key={s.id} className="flex items-center gap-4 p-4">
-                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                  <Icon size={16} className="text-navy" />
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {services.map((s) => {
+          const Icon = Icons[s.icon] || Icons.HelpCircle;
+          const Card = s.link ? "a" : "div";
+          return (
+            <Card
+              key={s.id}
+              {...(s.link ? { href: s.link, target: "_blank", rel: "noreferrer" } : {})}
+              className={`bg-white rounded-2xl border p-6 block ${s.link ? "hover:shadow-md hover:border-navy/30 transition" : ""}`}
+            >
+              {s.image_url ? (
+                <img src={s.image_url} alt="" className="w-11 h-11 rounded-full object-cover mb-4" />
+              ) : (
+                <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+                  <Icon size={20} className="text-navy" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-navy truncate">{s.title}</p>
-                  <p className="text-sm text-gray-500 truncate">{s.description}</p>
-                </div>
-                <button onClick={() => handleDelete(s.id)} className="p-2 text-gray-400 hover:text-red-600">
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            );
-          })}
-          {!services.length && <p className="p-6 text-gray-400 text-sm">No services yet.</p>}
-        </div>
+              )}
+              <h3 className="font-serif text-lg text-navy mb-2">{s.title}</h3>
+              <p className="text-sm text-gray-600">{s.description}</p>
+              {s.link && (
+                <p className="text-sm text-navy font-medium mt-3 inline-flex items-center gap-1">
+                  Learn more <Icons.ArrowRight size={14} />
+                </p>
+              )}
+            </Card>
+          );
+        })}
+        {!services.length && <p className="text-gray-400">No services listed yet.</p>}
       </div>
-
-      {adding && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <form onSubmit={handleSave} className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="font-serif text-xl text-navy">New service</h2>
-              <button type="button" onClick={() => setAdding(false)}><X size={20} className="text-gray-400" /></button>
-            </div>
-            {error && <p className="text-sm text-red-600 bg-red-50 rounded-lg p-3">{error}</p>}
-
-            <div>
-              <label className="text-xs font-semibold text-gray-500">Title *</label>
-              <input required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="e.g. Academic Counselling" className="w-full border rounded-lg px-3 py-2 mt-1" />
-            </div>
-            <div>
-              <label className="text-xs font-semibold text-gray-500">Description</label>
-              <textarea rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full border rounded-lg px-3 py-2 mt-1" />
-            </div>
-            <div>
-              <label className="text-xs font-semibold text-gray-500">Icon</label>
-              <select
-                value={form.icon}
-                onChange={(e) => setForm({ ...form, icon: e.target.value })}
-                className="w-full border rounded-lg px-3 py-2 mt-1 bg-white"
-              >
-                {iconOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </div>
-
-            <button disabled={saving} className="w-full bg-navy text-white rounded-full py-3 font-medium disabled:opacity-60">
-              {saving ? "Saving…" : "Save service"}
-            </button>
-          </form>
-        </div>
-      )}
-    </AdminLayout>
+    </section>
   );
 }
